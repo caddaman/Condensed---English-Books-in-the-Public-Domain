@@ -1,0 +1,91 @@
+# Project Gutenberg English Public Domain Book Tool
+
+This Python script downloads and parses the official Project Gutenberg RDF metadata catalog to build a checklist of English-language public domain books. It supports marking books as completed, searching, and viewing the checklist status.
+
+## Features
+
+- Downloads and extracts the latest Project Gutenberg RDF metadata archive.
+- Parses RDF files concurrently for speed.
+- Filters books by English language and public domain status (configurable cutoff year).
+- Optionally falls back to scraping the Project Gutenberg website for copyright info.
+- Saves results to a CSV checklist with book ID, title, author, year, and completion status.
+- Manage completed books with simple mark/unmark commands.
+- Search books by keyword in title or author.
+
+## Requirements
+
+- Python 3.7+
+- Install dependencies:
+
+```bash
+pip install tqdm pandas requests beautifulsoup4
+
+
+Usage
+Run commands from your terminal:
+
+python your_script.py build [--year YEAR] [--scrape]
+
+    Downloads and parses RDF files.
+
+    --year: Year cutoff for public domain (default: 1927).
+
+    --scrape: Enable fallback web scraping for copyright status.
+
+python your_script.py show
+python your_script.py checklist
+
+    Show checklist with completion status (✅ completed, ❌ not).
+
+python your_script.py mark <book_id>
+
+    Mark a book as completed by its ID.
+
+python your_script.py unmark <book_id>
+
+    Remove completion mark from a book.
+
+python your_script.py search <keyword>
+
+    Search for books by title or author matching <keyword>.
+
+
+Output
+english_public_domain_books_complete.csv: CSV file listing books with columns:
+
+id: Gutenberg book ID
+
+title: Book title
+
+author: Author name
+
+year: Publication year (if found)
+
+completed: 0 or 1 (completion status)
+
+checklist_books/: Folder containing .txt marker files named by book ID indicating completion.
+
+Example
+    Mark book ID 12345 as completed:
+
+python your_script.py mark 12345
+
+    Show checklist status:
+
+python your_script.py show
+
+    Search for books with "twain":
+
+python your_script.py search twain
+
+Notes
+Ensure you run the build command before other commands to generate the checklist.
+
+The RDF archive is ~600MB; extraction and parsing can take several minutes.
+
+Adjust the cutoff year with --year to reflect evolving public domain laws.
+
+Fallback scraping may be slower but improves accuracy for ambiguous copyright statuses.
+
+License
+This script and data are for educational and personal use only. Data sourced from Project Gutenberg, which provides public domain books for free use.
